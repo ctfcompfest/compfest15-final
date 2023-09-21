@@ -79,7 +79,7 @@ Please refer to sample problem for the example.
 ## Notes
 - All problem must be delivered in the form of a docker image.
 - Problem will be served by using command: `docker-compose up -d`.
-- You do not need to set flag value. Flag will be set by system automatically. Please refer your flag to directory /flag/flag.txt in your docker container
+- You do not need to set flag value. Flag will be set by system automatically. Flag filename is `flag.txt`, so if you have volume `__FLAG_DIR__:/myflag` on your compose file, please refer your flag to `/myflag/flag.txt` in your docker container.
 - You do not need to provide hint. Hints usually provided on demand during contest, by considering the contest situation.
 
 ## Sample Problem
