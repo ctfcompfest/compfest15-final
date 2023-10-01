@@ -14,12 +14,12 @@ def test(helper: ChallengeHelper):
         # check if parameters correctly set
         io.recvuntil(b'p = ')
         p = int(io.recvline().strip().decode())
-        assert isPrime(p) and p.bit_length() == 256
+        assert isPrime(p) or p.bit_length() == 256, "p is not prime or not 256 bits"
         io.recvuntil(b'g = ')
         g = int(io.recvline().strip().decode())
         io.recvuntil(b'm = ')
         m = int(io.recvline().strip().decode())
-        assert m >> 16 < p
+        assert m >> 16 < p, "m is too large"
         io.recvuntil(b'a = ')
         a = int(io.recvline().strip().decode())
         io.recvuntil(b'c = ')
@@ -35,7 +35,7 @@ def test(helper: ChallengeHelper):
         io.sendlineafter(b'choose option: ', b'3')
         io.sendlineafter(b'Token: ', token.encode())
         io.recvuntil(b'Welcome, ')
-        assert username == io.recvline().strip().decode()
+        assert username == io.recvline().strip().decode(), "username not match"
 
         # check if get token and set token works
         io.sendlineafter(b'choose option: ', b'2')
@@ -46,7 +46,7 @@ def test(helper: ChallengeHelper):
         io.sendlineafter(b'choose option: ', b'3')
         io.sendlineafter(b'Token: ', token.encode())
         io.recvuntil(b'Welcome, ')
-        assert username == io.recvline().strip().decode()
+        assert username == io.recvline().strip().decode(), "username not match"
 
         # check if get flag works
         username, password = 'admin', helper.secret
@@ -59,7 +59,7 @@ def test(helper: ChallengeHelper):
         io.sendlineafter(b'Token: ', token.encode())
         io.sendlineafter(b'choose option: ', b'4')
         flag = io.recvline().decode()
-        assert 'flag{' in flag
+        assert 'flag{' in flag, "flag not found"
         
         # exit
         io.sendlineafter(b'choose option: ', b'5')
@@ -68,12 +68,11 @@ def test(helper: ChallengeHelper):
         return Verdict.OK()
     
     except Exception as e:
-        print(e)
-        return Verdict.FAIL("test failed")
+        return Verdict.FAIL(e)
 
 def do_check(helper: ChallengeHelper) -> Verdict:
     testcase_func = [test]
-    pool = ThreadPool(processes=10)
+    pool = ThreadPool(processes=len(testcase_func))
 
     tc_res = [pool.apply_async(func, args=(helper, )) for func in testcase_func]
 

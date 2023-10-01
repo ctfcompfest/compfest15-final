@@ -1,3 +1,3 @@
 whitelist:
-  alice-bob-and-random-numbers:
+  challenge:
   - /home/nobody/server.py

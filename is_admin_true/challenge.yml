@@ -1,5 +1,5 @@
 name: is_admin=true
 description: |-
-  Emang boleh is_admin=true itu? mending is_admin=turu aja deh.
+  Emang boleh se is_admin=true itu? mending is_admin=turu aja deh.
 num_expose: 1
-server_id: 0
+server_id: null
