@@ -17,12 +17,12 @@
 	color: inherit;
 	text-decoration: inherit;
 }
-.hero-card { /* Initial transparent border */
+.hero_card { /* Initial transparent border */
             transition: border 0.1s ease;
             cursor : pointer
         }
 
-.hero-card:hover {
+.hero_card:hover {
             border: 2px solid #4e8bfc; /* Change border color to blue on hover */
         }
 </style>
@@ -59,7 +59,7 @@
 		<div class="row text-center justify-content-center">
 			{% for hero in context.heroes %}
 			<div class="col-sm-3 hero-card">
-				<a href="/detail?name={{hero.localized_name}}" class="card m-2 hero-card  text-decoration-none">
+				<a href="/detail?name={{hero.localized_name}}" class="card m-2 hero_card  text-decoration-none">
 					<div class="card-header text-black">
 						{{ hero.localized_name }}
 					</div>
