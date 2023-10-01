@@ -58,7 +58,7 @@
 		{% if context %}
 		<div class="row text-center justify-content-center">
 			{% for hero in context.heroes %}
-			<div class="col-sm-3">
+			<div class="col-sm-3 hero-card">
 				<a href="/detail?name={{hero.localized_name}}" class="card m-2 hero-card  text-decoration-none">
 					<div class="card-header text-black">
 						{{ hero.localized_name }}
