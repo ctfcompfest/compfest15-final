@@ -18,7 +18,7 @@ def check_homepage_accessibility(helper: ChallengeHelper):
     if res.status_code == 200 or res.status_code == 304:
         return Verdict.OK()
 
-    return Verdict.FAIL("The Specified endpoint can't accessed")
+    return Verdict.FAIL("website homepage can't be accessed")
 
 
 async def check_search_accessibility(helper: ChallengeHelper):
@@ -29,7 +29,7 @@ async def check_search_accessibility(helper: ChallengeHelper):
     if await res.status_code == 200 or await res.status_code == 302:
         return Verdict.OK()
 
-    return Verdict.FAIL("The Specified endpoint can't accessed")
+    return Verdict.FAIL("search POST endpoint can't be accessed")
 
 
 def check_detail_accessibility(helper: ChallengeHelper):
@@ -38,7 +38,7 @@ def check_detail_accessibility(helper: ChallengeHelper):
     if res.status_code == 200 or res.status_code == 304:
         return Verdict.OK()
 
-    return Verdict.FAIL("The Specified endpoint can't accessed")
+    return Verdict.FAIL("detail page can't be accessed")
 
 
 def check_homepage_integrity(helper: ChallengeHelper):
@@ -49,22 +49,22 @@ def check_homepage_integrity(helper: ChallengeHelper):
     if res.status_code == 200 and len(occurences) == 120:
         return Verdict.OK()
 
-    return Verdict.FAIL("The web doesn't return the correct data")
+    return Verdict.FAIL("The homepage doesn't return complete data")
 
 
-async def check_search_integrity(helper: ChallengeHelper):
+def check_search_integrity(helper: ChallengeHelper):
     res = requests.post(f"http://{helper.addresses[0]}/search", data={"keyword": "em"})
     substring_pattern = "hero-card"
 
-    if await res.status_code == 200 or await res.status_code == 302:
+    if res.status_code == 200 or res.status_code == 302:
         occurences = find_all_occurrences(res.text, substring_pattern)
         if len(occurences) == 4:
             return Verdict.OK()
 
-    return Verdict.FAIL("The web doesn't return the correct data")
+    return Verdict.FAIL("The search endpoint response doesn't return the correct data")
 
 
-async def check_detail_integrity(helper: ChallengeHelper):
+def check_detail_integrity(helper: ChallengeHelper):
     keys = [
         "https://cdn.dota2.com/apps/dota2/images/heroes/ember_spirit_full.png",
         "hero-detail-card",
@@ -77,7 +77,7 @@ async def check_detail_integrity(helper: ChallengeHelper):
 
     res = requests.get(f"http://{helper.addresses[0]}/detail?name=Ember Spirit")
 
-    if await res.status_code == 200 or await res.status_code == 302:
+    if res.status_code == 200 or res.status_code == 302:
         for key in keys:
             if key not in res.text:
                 is_ok = False
@@ -86,7 +86,7 @@ async def check_detail_integrity(helper: ChallengeHelper):
         if is_ok:
             return Verdict.OK()
 
-    return Verdict.FAIL("The web doesn't return the correct data")
+    return Verdict.FAIL("The detail page doesn't return the correct data")
 
 
 def do_check(helper: ChallengeHelper) -> Verdict:
