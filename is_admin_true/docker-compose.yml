@@ -1,0 +1,10 @@
+version: '3'
+services:
+  challenge:
+    build:
+      context: .
+    restart: always
+    volumes:
+    - "__FLAG_DIR__:/flag:ro"
+    ports:
+    - "2024:9999"
