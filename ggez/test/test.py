@@ -18,7 +18,7 @@ def check_homepage_accessibility(helper: ChallengeHelper):
     if res.status_code == 200 or res.status_code == 304:
         return Verdict.OK()
 
-    return Verdict.FAIL("the web seems to be broken.")
+    return Verdict.FAIL("The Specified endpoint can't accessed")
 
 
 async def check_search_accessibility(helper: ChallengeHelper):
@@ -29,7 +29,7 @@ async def check_search_accessibility(helper: ChallengeHelper):
     if await res.status_code == 200 or await res.status_code == 302:
         return Verdict.OK()
 
-    return Verdict.FAIL("the web seems to be broken.")
+    return Verdict.FAIL("The Specified endpoint can't accessed")
 
 
 def check_detail_accessibility(helper: ChallengeHelper):
@@ -38,7 +38,7 @@ def check_detail_accessibility(helper: ChallengeHelper):
     if res.status_code == 200 or res.status_code == 304:
         return Verdict.OK()
 
-    return Verdict.FAIL("the web seems to be broken.")
+    return Verdict.FAIL("The Specified endpoint can't accessed")
 
 
 def check_homepage_integrity(helper: ChallengeHelper):
@@ -98,7 +98,7 @@ def do_check(helper: ChallengeHelper) -> Verdict:
         check_detail_accessibility,
         check_detail_integrity,
     ]
-    pool = ThreadPool(processes=10)
+    pool = ThreadPool(processes=max(10, len(testcase_func))
 
     tc_res = [pool.apply_async(func, args=(helper,)) for func in testcase_func]
 
