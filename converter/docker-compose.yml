@@ -1,0 +1,10 @@
+version: '3'
+services:
+  converter:
+    build:
+      context: src/
+    restart: always
+    volumes:
+    - "__FLAG_DIR__:/flag:ro"
+    ports:
+    - "__PORT__:8000"

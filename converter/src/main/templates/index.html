@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block 'content' %}
+<main class="container">
+  <div class="px-4 py-2 my-5 text-center">
+    <form method="post" action="/convert">
+        <textarea name="user_input" id="" cols="100" rows="20" placeholder="Type something..."></textarea>
+        <br>
+        <button class="btn btn-primary"  type="submit">Convert</button>
+    </form>
+  </div>    
+</main>
+{% endblock %}
