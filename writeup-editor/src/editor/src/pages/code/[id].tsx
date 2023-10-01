@@ -1,11 +1,11 @@
 import * as fs from "node:fs";
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import dynamic from "next/dynamic";
 import "@uiw/react-textarea-code-editor/dist.css";
 import toast, { Toaster } from "react-hot-toast";
 import Image from 'next/image'
+import { securityCheck } from "@/utils";
 
 const CodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
@@ -17,7 +17,8 @@ type Repo = {
 }
 
 export const getServerSideProps = (async (context) => {
-  console.log(context.resolvedUrl.slice(1));
+  securityCheck([context.resolvedUrl], ['code/'], ['..']);
+  
   const templateFilename = context.resolvedUrl.slice(1);
   const repo = {
     templateContent: "",
@@ -35,7 +36,6 @@ export default function codeViewer({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [code, setCode] = useState(repo.templateContent);
   const [codeId, _] = useState(crypto.randomUUID());
-  const router = useRouter();
   
   const sendContent = async () => {
     await fetch("/api/save", {
@@ -62,7 +62,7 @@ export default function codeViewer({
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({target: `code/${codeId}`}),
+      body: JSON.stringify({source: `code/${codeId}`}),
     })
     .then((res) => res.json())
     .then((data) => {
@@ -78,6 +78,7 @@ export default function codeViewer({
     <main
       className={`min-h-screen items-center p-24`}
     >
+      <title>Editor | Writeup Editor</title>
       <div className="z-10 w-full items-center justify-between text-sm lg:flex">
         <a href="/" className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
           <strong>Writeup Editor</strong>
@@ -119,7 +120,7 @@ export default function codeViewer({
         />
       </div>
       <div className="flex flex-row gap-2 mt-4 justify-end">
-        <button className="btn btn-accent" onClick={sendContent}>Convert to PDF</button>
+        <button className="btn btn-accent" onClick={convertContent}>Convert to PDF</button>
         <button className="btn btn-primary" onClick={sendContent}>Save</button>
       </div>
     </main>
