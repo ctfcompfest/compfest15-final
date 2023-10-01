@@ -1,0 +1,6 @@
+whitelist:
+  app:
+  - /opt/ctf/app
+blacklist:
+  - /opt/ctf/app/Dockerfile
+  - /opt/ctf/app/heroes_data.csv
