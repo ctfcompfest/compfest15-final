@@ -1,4 +1,3 @@
-from Crypto.Util.number import getPrime
 from hashlib import sha256
 import random
 import os

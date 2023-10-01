@@ -3,7 +3,6 @@ RUN apk add socat
 
 WORKDIR /home/nobody
 COPY src .
-RUN pip install -r requirements.txt
 
 USER nobody
 EXPOSE 9999
