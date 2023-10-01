@@ -1,7 +1,8 @@
 name: NeoZap Checker
 description: |-
   Disclaimer: Tahukah Anda, apalagi yang dadakan selain tahu bulat? Yak, challenge ini 😂.
-  NeoZap is bored, so he developed a webserver in C to authenticate himself. NeoZap, unlike other C developers, knows how to secure his apps from trivial exploitation, like buffer overflows, etc. Prove him wrong!
+
+  Because NeoZap is a true sigma, he developed an HTTP webserver in C to authenticate himself. NeoZap, unlike other noob C developers, knows how to secure his apps from trivial exploitation, like buffer overflows, etc. Prove him wrong!
   Bruteforcing the remote server is not allowed.
 
   Author: NeoZap
