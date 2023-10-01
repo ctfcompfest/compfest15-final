@@ -120,7 +120,7 @@ short isNeoZap(const char* password) {
     int ret = 0;
     unsigned char hash[HASH_LENGTH];
     SHA384(password, strlen(password), hash);
-    if (compareHash(hash, "eee2d8627ec0e8f21b114898e78fc3a2058c865669006c1daf7a28d26c9e3308bbde8a3f097f0c9689bc3cbd"))
+    if (compareHash(hash, "eee2d8627ec0e8f21b114898e78fc3a2058c865669006c1daf7a28d26c9e3308bbde8a3f097f0c9689bc3cbdc55ce20b"))
         ret = 0xfada;
     return ret;
 }
@@ -160,6 +160,11 @@ void handleRequest(int client_fd) {
         strncpy(route, buffer + match[1].rm_so, ROUTE_LEN);
         route[ROUTE_LEN] = '\0';
 
+        if (ROUTE_LEN == 0) {
+            strcpy(route, "login.html\0");
+            ROUTE_LEN = strlen(route);
+        }
+
         int PASSWORD_LEN = match[3].rm_eo - match[3].rm_so;
         char password[PASSWORD_LEN + 69];
         strncpy(password, buffer + match[3].rm_so, PASSWORD_LEN);
@@ -168,18 +173,14 @@ void handleRequest(int client_fd) {
         printf("Route: %s\n", route);
         printf("Password: %s\n", password);
 
-        if (ROUTE_LEN == 0) {
-            strcpy(route, "login.html\0");
-            ROUTE_LEN = strlen(route);
-        }
         if (strcmp(route, "login.html")) {
             if (PASSWORD_LEN == 0) {
-                response = "HTTP/1.1 400 Bad Request\r\nContent-Type: text/plain\r\n\r\nHmm, to prove that you are NeoZap, you need to provide a password!\r\nSimply put the password as query string. (e.g. /foo?password=insert_pass_here)\0";
+                response = "HTTP/1.1 400 Bad Request\r\nContent-Type: text/plain\r\n\r\nHmm, to prove that you are NeoZap, you need to provide a password! Simply put the password as query string. (e.g. /foo?password=insert_pass_here)\0";
                 send(client_fd, response, strlen(response), 0);
                 free(buffer);
                 return;
             } else if (isNeoZap(password) != (short)0xfada) {
-                response = "HTTP/1.1 401 Forbidden\r\nContent-Type: text/plain\r\n\r\nWho are you?\r\nYou are not NeoZap!\r\nGo away >:(\0";
+                response = "HTTP/1.1 401 Forbidden\r\nContent-Type: text/plain\r\n\r\nWho are you? You are not NeoZap! Go away >:(\0";
                 send(client_fd, response, strlen(response), 0);
                 free(buffer);
                 return;
@@ -192,17 +193,18 @@ void handleRequest(int client_fd) {
             send(client_fd, response, strlen(response), 0);
         } else {
             char* header = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n";
-            char* file_buffer = (char*)malloc(RESPONSE_SIZE);
-            fgets(file_buffer, RESPONSE_SIZE, file);
-
             send(client_fd, header, strlen(header), 0);
-            send(client_fd, file_buffer, strlen(file_buffer), 0);
-            
+
+            char* file_buffer = (char*)malloc(RESPONSE_SIZE);
+            size_t bytes_read;
+            while ((bytes_read = fread(file_buffer, 1, sizeof(file_buffer), file)) > 0) {
+                send(client_fd, file_buffer, bytes_read, 0);
+            }
             free(file_buffer);
             fclose(file);
         }
     } else {
-        response = "HTTP/1.1 400 Bad Request\r\nContent-Type: text/plain\r\n\r\nBad Request, please follow the access schema:\r\nGET /foo?password=bar\0";
+        response = "HTTP/1.1 400 Bad Request\r\nContent-Type: text/plain\r\n\r\nBad Request, please follow the access schema: GET /foo?password=bar\0";
         send(client_fd, response, strlen(response), 0);
     }
 
