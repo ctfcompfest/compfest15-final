@@ -18,7 +18,7 @@ type Repo = {
 }
 
 export const getServerSideProps = (async (context) => {
-  securityCheck([context.query], [':templates'], ['..']);
+  securityCheck([context.query], [], ['..', ':"/']);
   const templateFilename = context.query.t?.toString() ?? "";
   const repo = {
     templateContent: "",
@@ -43,6 +43,7 @@ export default function Home({
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Accept": "*",
       },
       body: JSON.stringify({code: code, target: `code/${codeId}`}),
     })

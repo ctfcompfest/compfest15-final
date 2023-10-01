@@ -12,7 +12,7 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  securityCheck([req.body], ['code/'], ['..', 'flag.txt', 'script']);
+  securityCheck([req.body], [':"code/'], ['..', 'flag.txt', '"target":"/']);
 
   if (req.body.code === undefined || req.body.target === "" || req.body.target === undefined) {
     return res.status(400).json({ status: 'failed', message: 'code or target cannot be empty.' });

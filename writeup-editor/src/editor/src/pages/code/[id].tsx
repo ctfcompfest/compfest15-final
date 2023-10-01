@@ -6,6 +6,7 @@ import "@uiw/react-textarea-code-editor/dist.css";
 import toast, { Toaster } from "react-hot-toast";
 import Image from 'next/image'
 import { securityCheck } from "@/utils";
+import { useRouter } from "next/router";
 
 const CodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
@@ -34,9 +35,10 @@ export const getServerSideProps = (async (context) => {
 export default function codeViewer({
   repo,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const router = useRouter();
   const [code, setCode] = useState(repo.templateContent);
-  const [codeId, _] = useState(crypto.randomUUID());
-  
+  const [codeId, _] = useState(router.query.id);
+
   const sendContent = async () => {
     await fetch("/api/save", {
       method: "POST",
@@ -48,28 +50,9 @@ export default function codeViewer({
     .then((res) => res.json())
     .then((data) => {
       if (data.status === "success") {
-        toast.success("saved successfully");
-      }
-      else {
-        toast.error(data.message ?? "something went wrong.", { id: codeId });
-      }
-    })
-  };
-
-  const convertContent = async () => {
-    await fetch("/api/convert", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({source: `code/${codeId}`}),
-    })
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.status === "success") {
-        console.log(data);
+        toast.success("saved successfully.");
       } else {
-        toast.error(data.message ?? "something went wrong.", { id: codeId });
+        toast.error(data.message ?? "something went wrong.");
       }
     })
   };
@@ -120,7 +103,7 @@ export default function codeViewer({
         />
       </div>
       <div className="flex flex-row gap-2 mt-4 justify-end">
-        <button className="btn btn-accent" onClick={convertContent}>Convert to PDF</button>
+        <a href={`/api/convert?source=code/${codeId}`} target="_blank" className="btn btn-accent">Convert to PDF</a>
         <button className="btn btn-primary" onClick={sendContent}>Save</button>
       </div>
     </main>

@@ -7,17 +7,21 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  securityCheck([req.body], ['code/'], ['..', 'flag.txt', 'script']);
-
-  if (req.body.source === "" || req.body.source === undefined) {
+  var dataSource = req.body;
+  if (req.method === "GET") dataSource = req.query;
+  
+  securityCheck([dataSource], [':"code/'], ['..', 'flag.txt']);
+  if (dataSource.source === "" || dataSource.source === undefined) {
     return res.status(400).json({ status: 'failed', message: 'source cannot be empty.' });
   }
 
   const markdownpdf = require("markdown-pdf")
-  const contentStream = fs.createReadStream(req.body.source);
+  const contentStream = fs.createReadStream(dataSource.source);
   res.writeHead(200, {
-    'Content-Type': 'application/pdf'
-  })
+    'Content-Type': 'application/pdf',
+    'content-disposition': `attachment; filename="${dataSource.source}.pdf"`,
+  });
+
   contentStream
     .pipe(markdownpdf({remarkable: {preset: 'commonmark'}}))
     .pipe(res);
