@@ -98,7 +98,7 @@ def do_check(helper: ChallengeHelper) -> Verdict:
         check_detail_accessibility,
         check_detail_integrity,
     ]
-    pool = ThreadPool(processes=max(10, len(testcase_func))
+    pool = ThreadPool(processes=max(10, len(testcase_func)))
 
     tc_res = [pool.apply_async(func, args=(helper,)) for func in testcase_func]
 
