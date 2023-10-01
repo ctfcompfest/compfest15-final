@@ -9,9 +9,6 @@ RUN apk add python3 \
     py3-pandas \
     py3-flask 
 
-COPY docker/ .
-RUN chmod +x *.sh
-
 WORKDIR /opt/ctf/app
 COPY server/ .
 COPY Dockerfile .
