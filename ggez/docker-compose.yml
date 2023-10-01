@@ -5,7 +5,7 @@ services:
       context: src
       dockerfile: Dockerfile
     ports:
-      - "8000:8000"
+      - "__PORT__:8000"
     restart: always
     volumes:
-      - "/flag:/flag:ro"
+      - "__FLAG_DIR__:/flag:ro"
