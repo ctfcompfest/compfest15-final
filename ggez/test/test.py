@@ -21,12 +21,12 @@ def check_homepage_accessibility(helper: ChallengeHelper):
     return Verdict.FAIL("website homepage can't be accessed")
 
 
-async def check_search_accessibility(helper: ChallengeHelper):
+def check_search_accessibility(helper: ChallengeHelper):
     res = requests.post(
         f"http://{helper.addresses[0]}/search", data={"keyword": "ember"}
     )
 
-    if await res.status_code == 200 or await res.status_code == 302:
+    if res.status_code == 200 or res.status_code == 302:
         return Verdict.OK()
 
     return Verdict.FAIL("search POST endpoint can't be accessed")
