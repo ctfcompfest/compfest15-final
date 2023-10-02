@@ -49,7 +49,7 @@ def test0(helper: ChallengeHelper):
         return Verdict.OK()
     except Exception as e:
         print(e)
-        return Verdict.FAIL("test 0 failed")
+        return Verdict.FAIL("test 0 failed: " + str(e))
 
 def test1(helper: ChallengeHelper):
     try:
@@ -85,8 +85,7 @@ def test1(helper: ChallengeHelper):
         s.close()
         return Verdict.OK()
     except Exception as e:
-        print(e)
-        return Verdict.FAIL("test 1 failed")
+        return Verdict.FAIL("test 1 failed: " + str(e))
 
 def test2(helper: ChallengeHelper):
     try:
@@ -127,8 +126,7 @@ def test2(helper: ChallengeHelper):
         s.close()
         return Verdict.OK()
     except Exception as e:
-        print(e)
-        return Verdict.FAIL("test 2 failed")
+        return Verdict.FAIL("test 2 failed: " + str(e))
 
 def do_check(helper: ChallengeHelper) -> Verdict:
     testcase_func = [test0, test1, test2]
