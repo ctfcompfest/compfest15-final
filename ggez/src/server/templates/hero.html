@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Dota 2 Heroes</title>
+</head>
+<body class="w-screen flex justify-center">
+    <section class="flex flex-col h-[700px] justify-start items-center mt-14 gap-y-4 border border-2 border-gray-300 drop-shadow-md rounded-md p-4 hero-detail-card">
+        <div class="w-full flex justify-center gap-x-2 items-center">
+            <img alt='{{hero.icon}}' src='{{hero.icon}}' class="w-8 h-8 mt-1"/>
+            <h3 class="text-4xl text-semibold text-gray-700">{{hero.localized_name}}</h3>
+        </div>    
+        <img alt="{{hero.localized_name}}" src={{hero.img}} class="w-96 h-52 rounded-sm">
+        <article class="flex w-full justify-between items-start">
+            <section class="flex flex-col items-start justify-start gap-y-2 w-1/2">
+                <h4>Attack Type : {{hero.attack_type}}</h4>
+                <h4>Primary Attr. : {{hero.primary_attr}}</h4>
+            </section>
+            <section class="flex w-1/2 justify-start">
+                <h4>Roles : </h4>
+                <ul class="ml-2">
+                    {% for role in hero.roles %}
+                    <li class="list-disc ml-3">{{role}}</li>
+                    {% endfor %}
+                </ul>
+                
+            </section>
+           
+        </article>
+        <section class="flex w-full justify-between mt-4">
+            <div class="flex flex-col gap-y-2 items-start justify-start w-1/2">
+                <h4>Base Health : {{hero.base_health}}</h4>
+                <h4>Base Mana : {{hero.base_mana}}</h4>
+                <h4>Base Attack : {{hero.base_attack_min}}</h4>
+                <h4>Base Armor : {{hero.base_armor}}</h4>
+                <h4>Movement Speed : {{hero.move_speed}}</h4>
+
+            </div>
+
+            <div class="flex flex-col gap-y-2 items-start justify-start w-1/2">
+                <h4>Base Strength : {{hero.base_str}}</h4>
+                <h4>Base Agility : {{hero.base_agi}}</h4>
+                <h4>Base Intelligence : {{hero.base_int}}</h4>
+                <h4>Attack Range : {{hero.attack_range}}</h4>
+                <h4>Attack Rate : {{hero.attack_rate}}</h4>
+
+            </div>
+        </section>
+        <div class="flex w-full mt-2"> 
+            <h4> Position : {{hero.main_role}} (Pos {{hero.lane}})</h4>
+        </div>
+    </section>
+</body>
+</html>

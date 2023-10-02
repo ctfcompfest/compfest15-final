@@ -1,0 +1,11 @@
+version: '3'
+services:
+  app:
+    build:
+      context: src
+      dockerfile: Dockerfile
+    ports:
+      - "__PORT__:8000"
+    restart: always
+    volumes:
+      - "__FLAG_DIR__:/flag:ro"
