@@ -2,4 +2,4 @@ name: Alice, Bob, and Random Numbers
 description: |-
   Alice and Bob just love random numbers, and they want share it to you. Yeah, just random number.
 num_expose: 1
-server_id: 0
+server_id: null
