@@ -48,7 +48,6 @@ def test0(helper: ChallengeHelper):
         s.close()
         return Verdict.OK()
     except Exception as e:
-        print(e)
         return Verdict.FAIL("test 0 failed: " + str(e))
 
 def test1(helper: ChallengeHelper):
