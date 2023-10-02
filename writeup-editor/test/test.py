@@ -16,19 +16,22 @@ import time
 def get_base_url(helper: ChallengeHelper):
     return f"http://{helper.addresses[0]}"
 
-def test_save_and_convert(helper: ChallengeHelper, content: str):
+def test_save_and_convert(helper: ChallengeHelper, content: str, images = []):
     try:
+        content_img = ""
+        for img in images:
+            content_img += f'<img src="{img[0]}"></img>'
         codeid = f"code/{uuid.uuid4()}"
         data = {
-            "code": "### " + content,
+            "code": "### " + content + "\n" + content_img,
             "target": codeid,
         }
         resp = requests.post(f"{get_base_url(helper)}/api/save", json=data)
         assert resp.status_code == 200, "failed api save"
         time.sleep(0.5)
 
-        validate_data = {"templateContent": "### " + content}
-        validate_data_str = json.dumps(validate_data, separators=(',', ':'))
+        validate_data = {"templateContent": "### " + content + "\n" + content_img}
+        validate_data_str = json.dumps(validate_data, separators=(',', ':')).replace("<", "\\u003c").replace(">", "\\u003e")
         resp = requests.get(f"{get_base_url(helper)}/{codeid}")
         assert resp.status_code == 200, f"failed open save code: {codeid}"
         assert resp.text.find(validate_data_str) != -1, f"save content differ: {codeid}\ncontent: {resp.text}"
@@ -39,11 +42,23 @@ def test_save_and_convert(helper: ChallengeHelper, content: str):
         with open(fname, "wb") as pdfres:
             pdfres.write(resp.content)
         pdftextcontent = ""
+        image_found = []
         with fitz.open(fname) as pdfres:
             for page in pdfres:
                 pdftextcontent += page.get_text()
+                image_found += page.get_images()
+            for img in image_found:
+                img_file = pdfres.extract_image(img[0])['image']
+                for image in images:
+                    with open(image[1], "rb") as check_image:
+                        check_image_content = check_image.read()                        
+                        assert img_file == check_image_content, f"image differ: {image[1]}"
+
         assert resp.status_code == 200, f"failed get convert code: {codeid}"
-        assert pdftextcontent.find(content) != -1, f"convert result content differ: {codeid}\ncontent: {pdftextcontent}"
+        assert pdftextcontent.find(content) != -1, f"convert result content differ: {codeid}\ncontent: {pdftextcontent}\nchecker: {content}"
+        assert len(images) == len(image_found), f"len image differ: {len(images)}, found: {len(image_found)}"
+
+
 
         os.remove(fname)
     except AssertionError as e:
@@ -78,9 +93,11 @@ def test_convert_possible_blacklist(helper: ChallengeHelper):
     shuffle(content_txt_lst)
 
     content_txt = "\n".join(content_txt_lst)
-    content_img = '<img src="https://cs.ui.ac.id/wp-content/uploads/2020/06/rmit-logo.png"></img>'
-    content = token_hex(16) + "\nini\ncinta"
-    return test_save_and_convert(helper, content)
+    content = content_txt
+    images = [
+        ("https://cs.ui.ac.id/wp-content/uploads/2020/06/rmit-logo.png", helper.local_chall_dir.joinpath("test", "rmit-logo.jpg"))
+    ]
+    return test_save_and_convert(helper, content, images=images)
 
 def do_check(helper: ChallengeHelper) -> Verdict:
     testcase_func = [
