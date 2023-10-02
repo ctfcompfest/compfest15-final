@@ -1,6 +1,6 @@
 version: '3'
 services:
-  app:
+  web:
     build: src
     volumes:
     - "__FLAG_DIR__:/flag:ro"
