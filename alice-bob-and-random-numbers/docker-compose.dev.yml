@@ -1,0 +1,12 @@
+version: '3'
+services:
+  alice-bob-and-random-numbers:
+    environment:
+      - PASSWORD=REPLACEME
+    build:
+      context: .
+    restart: always
+    volumes:
+    - "./flag:/flag:ro"
+    ports:
+    - "2023:9999"
