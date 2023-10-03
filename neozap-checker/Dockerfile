@@ -6,6 +6,7 @@ RUN apt-get update && \
     apt-get install -y libssl-dev
 
 WORKDIR /home/ctf
+USER ctf
 
 COPY src/server /home/ctf/server
 COPY src/server.c /home/ctf/server.c
@@ -17,5 +18,4 @@ RUN chown -R root:ctf /home/ctf && \
     chmod 555 /home/ctf/*.html /home/ctf/*.c
 RUN chmod +x /home/ctf/server
 
-USER ctf
 CMD ["/home/ctf/server"]
