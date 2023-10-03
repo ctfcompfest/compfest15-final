@@ -4,21 +4,19 @@ FROM python:3.10-alpine
 RUN apk update
 RUN apk add --no-cache gcc musl-dev python3-dev libffi-dev freetype-dev
 
-# permissions and nonroot user stuff
-RUN adduser -D nonroot
-RUN mkdir /home/app/ && chown -R nonroot:nonroot /home/app
+# permissions and ctf user stuff
+RUN adduser -D ctf
+RUN mkdir /home/app/ && chown -R ctf:ctf /home/app
 WORKDIR /home/app
-USER nonroot
+USER ctf
 
 # copy all the files to the container
-COPY --chown=nonroot:nonroot . .
+COPY --chown=ctf:ctf . .
 
-# venv
-ENV VIRTUAL_ENV=/home/app/venv
+RUN chmod -R 555 /home/app
 
-# python setup and installing deps
-RUN python -m venv $VIRTUAL_ENV
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+ENV PATH="/home/ctf/.local/bin:$PATH"
+
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 CMD ["gunicorn", "-w", "3", "-t", "60", "-b", "0.0.0.0:8000", "chall.wsgi:application"]

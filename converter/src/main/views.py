@@ -11,7 +11,6 @@ def convert(request):
         user_input = request.POST.get('user_input', '')
 
         try:
-            print(user_input)
             buffer = BytesIO()
             docs = SimpleDocTemplate(buffer)
             docs.build([Paragraph(user_input)])
