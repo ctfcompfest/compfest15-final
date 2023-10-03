@@ -7,11 +7,11 @@ RUN apt update && \
 
 WORKDIR /opt/app
 COPY editor/package.json .
-RUN npm i --production
-RUN npm install -g phantomjs-prebuilt --unsafe-perm
+RUN yarn install --production=true
+RUN yarn global add phantomjs-prebuilt
 
 COPY editor .
-RUN npm run build
+RUN yarn build
 
 COPY startup.sh .
 RUN chmod +x startup.sh

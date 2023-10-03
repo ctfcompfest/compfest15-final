@@ -3,7 +3,6 @@ import time
 import fitz
 
 HOST = "http://localhost:8080"
-FLAG_PREFIX = "flag{"
 
 def payload1():
     jsCode = """
