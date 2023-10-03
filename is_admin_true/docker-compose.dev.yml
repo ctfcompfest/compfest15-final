@@ -1,0 +1,12 @@
+version: '3'
+services:
+  challenge:
+    environment:
+      - PASSWORD=REPLACEME
+    build:
+      context: .
+    restart: always
+    volumes:
+    - "./flag:/flag:ro"
+    ports:
+    - "2024:9999"

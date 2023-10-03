@@ -1,0 +1,12 @@
+version: '3'
+services:
+  challenge:
+    environment:
+      - PASSWORD=__TEAM_SECRET__
+    build:
+      context: .
+    restart: always
+    volumes:
+      - "__FLAG_DIR__:/flag:ro"
+    ports:
+      - "__PORT__:9999"
