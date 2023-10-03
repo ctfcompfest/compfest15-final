@@ -113,7 +113,7 @@ def test2(helper: ChallengeHelper):
         s.sendlineafter(b'> ', b'7')
         s.sendlineafter(b'secret: ', str(pow(g, a * b, p)).encode())
         flag = s.recvuntil(b'\n').strip().decode()
-        assert 'flag{' in flag # flag format
+        assert 'COMPFEST15{' in flag # flag format
 
         # check this menu is available
         s.sendlineafter(b'> ', b'6')
