@@ -4,7 +4,7 @@ from multiprocessing.pool import ThreadPool
 from pathlib import Path
 from pypdf import PdfReader
 from pypdf.errors import PdfReadError
-import requests
+import requests, os
 
 def get_base_url(helper: ChallengeHelper):
     return f"http://{helper.addresses[0]}"
@@ -24,12 +24,14 @@ def test1(helper: ChallengeHelper):
     data_converter_test1 = {"user_input": "<p>test</p>"}
     resp_converter_test1= requests.post(f"{base_url}/convert", data=data_converter_test1, stream=True)
 
-    tempfile_converter_test1 = open('temp_converter_test1.pdf', 'wb')
+    fname = os.urandom(10).hex() + '.pdf'
+
+    tempfile_converter_test1 = open(fname, 'wb')
     tempfile_converter_test1.write(resp_converter_test1.content)
     tempfile_converter_test1.close()
 
     try:
-        temp_pdf = PdfReader("temp_converter_test1.pdf")
+        temp_pdf = PdfReader(fname)
         info = temp_pdf.metadata
         if info.producer != 'ReportLab PDF Library - www.reportlab.com':
             return Verdict.FAIL("PDF generated not using reportlab")
