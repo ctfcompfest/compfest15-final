@@ -21,7 +21,7 @@ def check_login_page_accessibility(helper: ChallengeHelper):
 
 def check_secret_page_accessibility(helper: ChallengeHelper):
     res = requests.get(
-        f"http://{helper.addresses[0]}/secret.html?password={ADMIN_PASSWORD}")
+        f"http://{helper.addresses[0]}/secret.html?password=fadacakep69")
     if res.status_code == 200 or res.status_code == 302:
         return Verdict.OK()
 
@@ -31,13 +31,13 @@ def check_secret_page_accessibility(helper: ChallengeHelper):
 def check_bad_requests(helper: ChallengeHelper):
     try:
         res = requests.get(
-            f"http://{helper.addresses[0]}//home/flag.txt?password={ADMIN_PASSWORD}")
+            f"http://{helper.addresses[0]}//home/flag.txt?password=fadacakep69")
         assert res.status_code == 400
 
         host, port = helper.addresses[0].split(":")
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect((host, int(port)))
-        payload = f"GET /../../../etc/passwd?password={ADMIN_PASSWORD} HTTP/1.1"
+        payload = "GET /../../../etc/passwd?password=fadacakep69 HTTP/1.1"
         s.sendall(payload.encode())
         res = s.recv(1024)
         assert b"400 Bad Request" in res
@@ -66,7 +66,7 @@ def check_invalid_password(helper: ChallengeHelper):
 
 def check_invalid_route(helper: ChallengeHelper):
     res = requests.get(
-        f"http://{helper.addresses[0]}/invalid_route?password={ADMIN_PASSWORD}")
+        f"http://{helper.addresses[0]}/invalid_route?password=fadacakep69")
     if res.status_code == 404:
         return Verdict.OK()
 
@@ -102,8 +102,6 @@ if __name__ == "__main__":
         local_challenge_dir=Path(__file__).parent.parent,
         compose_filename="docker-compose.dev.yml",
     )
-
-    ADMIN_PASSWORD = "fadacakep69"
 
     # AnD Checker will call do_check() in the following way
     INTERVAL_SECOND = 30
