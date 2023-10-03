@@ -24,7 +24,7 @@ def test1(helper: ChallengeHelper):
     data_converter_test1 = {"user_input": "<p>test</p>"}
     resp_converter_test1= requests.post(f"{base_url}/convert", data=data_converter_test1, stream=True)
 
-    tempfile_converter_test1 = open('temp.pdf', 'wb')
+    tempfile_converter_test1 = open('temp_converter_test1.pdf', 'wb')
     tempfile_converter_test1.write(resp_converter_test1.content)
     tempfile_converter_test1.close()
 
