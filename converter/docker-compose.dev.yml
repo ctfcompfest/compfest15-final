@@ -5,6 +5,6 @@ services:
       context: src/
     restart: always
     volumes:
-    - "__FLAG_DIR__:/flag:ro"
+    - "./flag:/flag:ro"
     ports:
-    - "__PORT__:8000"
+    - "6969:8000"
