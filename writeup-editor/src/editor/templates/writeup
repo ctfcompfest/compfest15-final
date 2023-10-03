@@ -1,0 +1,14 @@
+# [X Point] Problem Title
+
+write problem description here
+
+## Solution
+
+Write your observation and step by step to fetch the flag here, including code/script/payload that you use.
+To write a block payload, you can use:
+```
+payload here
+```
+
+## Tags
+prototype pollution, sqli

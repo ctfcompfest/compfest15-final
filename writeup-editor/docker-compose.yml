@@ -1,0 +1,9 @@
+version: '3'
+services:
+  web:
+    build: src
+    volumes:
+    - "__FLAG_DIR__:/flag:ro"
+    ports:
+    - "__PORT__:3000"
+    
