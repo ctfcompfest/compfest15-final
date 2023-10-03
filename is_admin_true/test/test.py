@@ -67,8 +67,8 @@ def test(helper: ChallengeHelper):
 
         return Verdict.OK()
     
-    except Exception as e:
-        return Verdict.FAIL(e)
+    except AssertionError as e:
+        return Verdict.FAIL(str(e))
 
 def do_check(helper: ChallengeHelper) -> Verdict:
     testcase_func = [test]
