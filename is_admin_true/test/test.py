@@ -59,7 +59,7 @@ def test(helper: ChallengeHelper):
         io.sendlineafter(b'Token: ', token.encode())
         io.sendlineafter(b'choose option: ', b'4')
         flag = io.recvline().decode()
-        assert 'flag{' in flag, "flag not found"
+        assert 'COMPFEST15{' in flag, "flag not found"
         
         # exit
         io.sendlineafter(b'choose option: ', b'5')
