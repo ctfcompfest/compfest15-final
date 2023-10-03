@@ -21,12 +21,12 @@ def test0(helper: ChallengeHelper):
 def test1(helper: ChallengeHelper):
     base_url = get_base_url(helper)
 
-    data = {"user_input": "<p>test</p>"}
-    resp = requests.post(f"{base_url}/convert", data=data, stream=True)
+    data_converter_test1 = {"user_input": "<p>test</p>"}
+    resp_converter_test1= requests.post(f"{base_url}/convert", data=data_converter_test1, stream=True)
 
-    tempfile = open('temp.pdf', 'wb')
-    tempfile.write(resp.content)
-    tempfile.close()
+    tempfile_converter_test1 = open('temp.pdf', 'wb')
+    tempfile_converter_test1.write(resp_converter_test1.content)
+    tempfile_converter_test1.close()
 
     try:
         temp_pdf = PdfReader("temp.pdf")
