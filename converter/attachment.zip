@@ -9,6 +9,7 @@ def index(request):
 def convert(request):
     if request.method == 'POST':
         user_input = request.POST.get('user_input', '')
+
         try:
             buffer = BytesIO()
             docs = SimpleDocTemplate(buffer)
