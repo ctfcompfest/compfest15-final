@@ -10,10 +10,6 @@ def get_base_url(helper: ChallengeHelper):
     return f"http://{helper.addresses[0]}"
 
 def test0(helper: ChallengeHelper):
-    f = open('html/index.html', 'r')
-    index_page = f.read()
-    f.close()
-
     base_url = get_base_url(helper)
     resp = requests.get(base_url)
 
@@ -33,7 +29,14 @@ def test1(helper: ChallengeHelper):
     tempfile.close()
 
     try:
-        PdfReader("temp.pdf")
+        temp_pdf = PdfReader("temp.pdf")
+        info = temp_pdf.metadata
+        if info.producer != 'ReportLab PDF Library - www.reportlab.com':
+            return Verdict.FAIL("PDF generated not using reportlab")
+        
+        if temp_pdf.pages[0].extract_text() != 'test\n':
+            return Verdict.FAIL("PDF content generated incorrectly")
+
     except PdfReadError:
         return Verdict.FAIL("Failed to generate pdf")
     
@@ -42,7 +45,7 @@ def test1(helper: ChallengeHelper):
 
 def do_check(helper: ChallengeHelper) -> Verdict:
     testcase_func = [test0, test1]
-    pool = ThreadPool(processes=10)
+    pool = ThreadPool(processes=max(10, len(testcase_func)))
 
     tc_res = [pool.apply_async(func, args=(helper, )) for func in testcase_func]
 
