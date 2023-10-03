@@ -1,0 +1,3 @@
+whitelist:
+  converter:
+  - /home/app/main/views.py
