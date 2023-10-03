@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  neozap-checker:
+    restart: always
+    build:
+      context: .
+    ports:
+      - "__PORT__:8080"
+    volumes:
+      - "__FLAG_DIR__:/home/flag:ro"
