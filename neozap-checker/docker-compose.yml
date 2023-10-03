@@ -8,4 +8,4 @@ services:
     ports:
       - "__PORT__:8080"
     volumes:
-      - "__FLAG_DIR__:/home:ro"
+      - "__FLAG_DIR__:/home/flag:ro"
