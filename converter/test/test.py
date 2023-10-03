@@ -29,7 +29,7 @@ def test1(helper: ChallengeHelper):
     tempfile_converter_test1.close()
 
     try:
-        temp_pdf = PdfReader("temp.pdf")
+        temp_pdf = PdfReader("temp_converter_test1.pdf")
         info = temp_pdf.metadata
         if info.producer != 'ReportLab PDF Library - www.reportlab.com':
             return Verdict.FAIL("PDF generated not using reportlab")
