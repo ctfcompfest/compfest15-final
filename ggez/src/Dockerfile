@@ -13,9 +13,7 @@ WORKDIR /opt/ctf/app
 COPY server/ .
 COPY Dockerfile .
 
-RUN apk add python3-dev py3-pip && \
-    setcap cap_setuid+ep $(readlink -f $(which python3))
-
+RUN apk add python3-dev py3-pip
 RUN mkdir -p /flag
 RUN chown root:root /flag && \
     chmod 0600 /flag
