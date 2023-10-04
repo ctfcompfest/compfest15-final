@@ -8,9 +8,9 @@ RUN apt-get update && \
 WORKDIR /home/ctf
 USER ctf
 
-COPY src/server /home/ctf/server
-COPY src/server.c /home/ctf/server.c
-COPY src/login.html /home/ctf/login.html
-COPY src/secret.html /home/ctf/secret.html
+COPY --chown=ctf src/server /home/ctf/server
+COPY --chown=ctf src/server.c /home/ctf/server.c
+COPY --chown=ctf src/login.html /home/ctf/login.html
+COPY --chown=ctf src/secret.html /home/ctf/secret.html
 
 CMD ["/home/ctf/server"]
