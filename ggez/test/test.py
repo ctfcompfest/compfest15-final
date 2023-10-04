@@ -46,7 +46,7 @@ def check_homepage_integrity(helper: ChallengeHelper):
 
     substring_pattern = "hero-card"
     occurences = find_all_occurrences(res.text, substring_pattern)
-    if res.status_code == 200 and len(occurences) == 120:
+    if res.status_code == 200 and len(list(occurences)) == 120:
         return Verdict.OK()
 
     return Verdict.FAIL("The homepage doesn't return complete data")
@@ -58,7 +58,7 @@ def check_search_integrity(helper: ChallengeHelper):
 
     if res.status_code == 200 or res.status_code == 302:
         occurences = find_all_occurrences(res.text, substring_pattern)
-        if len(occurences) == 4:
+        if len(list(occurences)) == 4:
             return Verdict.OK()
 
     return Verdict.FAIL("The search endpoint response doesn't return the correct data")
@@ -114,7 +114,7 @@ def do_check(helper: ChallengeHelper) -> Verdict:
 
 if __name__ == "__main__":
     helper = ChallengeHelper(
-        addresses=["127.0.0.1:2023"],
+        addresses=["127.0.0.1:50004"],
         secret="Secret2023",
         local_challenge_dir=Path(__file__).parent.parent,
         compose_filename="docker-compose.dev.yml",
