@@ -13,4 +13,6 @@ COPY --chown=ctf src/server.c /home/ctf/server.c
 COPY --chown=ctf src/login.html /home/ctf/login.html
 COPY --chown=ctf src/secret.html /home/ctf/secret.html
 
+RUN chmod +x /home/ctf/server
+
 CMD ["/home/ctf/server"]
