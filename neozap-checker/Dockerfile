@@ -13,8 +13,4 @@ COPY src/server.c /home/ctf/server.c
 COPY src/login.html /home/ctf/login.html
 COPY src/secret.html /home/ctf/secret.html
 
-RUN chmod -R 750 /home/ctf && \
-    chmod 555 /home/ctf/*.html /home/ctf/*.c
-RUN chmod +x /home/ctf/server
-
 CMD ["/home/ctf/server"]
