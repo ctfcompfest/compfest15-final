@@ -7,6 +7,7 @@ import "@uiw/react-textarea-code-editor/dist.css";
 import toast, { Toaster } from "react-hot-toast";
 import Image from 'next/image'
 import { securityCheck } from "@/utils";
+import { v4 } from "uuid";
 
 const CodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
@@ -36,7 +37,7 @@ export default function Home({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();
   const [code, setCode] = useState(repo.templateContent);
-  const [codeId, _] = useState(crypto.randomUUID());
+  const [codeId, _] = useState(v4());
 
   const sendContent = async () => {
     await fetch("/api/save", {
