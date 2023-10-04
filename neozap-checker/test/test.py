@@ -2,8 +2,10 @@ from fulgens import Verdict, ChallengeHelper
 from multiprocessing import TimeoutError
 from multiprocessing.pool import ThreadPool
 from pathlib import Path
+from secrets import token_hex
 import requests
 import socket
+import os
 
 
 def check_login_page_accessibility(helper: ChallengeHelper):
@@ -73,6 +75,22 @@ def check_invalid_route(helper: ChallengeHelper):
     return Verdict.FAIL("Invalid route is not returning 404 Not Found")
 
 
+def check_patch_diff(helper: ChallengeHelper):
+    test_dir = helper.local_chall_dir.joinpath("test")
+    with open(test_dir.joinpath("server"), "rb") as binary_ori_file:
+        binary_ori = binary_ori_file.read()
+    team_binary_fname = test_dir.joinpath(token_hex(4))
+    helper.fetch("neozap-checker", "/home/ctf/server", team_binary_fname)
+    with open(team_binary_fname, "rb") as team_binary_file:
+        team_binary = team_binary_file.read()
+    os.remove(team_binary_fname)
+
+    diff_len = abs(len(team_binary) - len(binary_ori))
+    if diff_len > 32:
+        return Verdict.FAIL(f"patch length exceed limit {diff_len}")
+    return Verdict.OK()
+
+
 def do_check(helper: ChallengeHelper) -> Verdict:
     testcase_func = [
         check_login_page_accessibility,
@@ -80,6 +98,7 @@ def do_check(helper: ChallengeHelper) -> Verdict:
         check_bad_requests,
         check_invalid_password,
         check_invalid_route,
+        check_patch_diff,
     ]
     pool = ThreadPool(processes=max(10, len(testcase_func)))
 

@@ -3,7 +3,10 @@ description: |-
   Disclaimer: Tahukah Anda, apalagi yang dadakan selain tahu bulat? Yak, challenge ini 😂.
 
   Because NeoZap is a true sigma, he developed an HTTP webserver in C to authenticate himself. NeoZap, unlike other noob C developers, knows how to secure his apps from trivial exploitation, like buffer overflows, etc. Prove him wrong!
-  Bruteforcing the remote server is not allowed.
+
+  Note:
+  - Bruteforcing the remote server is not allowed.
+  - Length difference between the original binary file and your patch cannot exceed 32 bytes.
 
   Author: NeoZap
 notes: lfi, null-byte, buffer overflow, logic error
