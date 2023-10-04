@@ -6,7 +6,7 @@ RUN pip install -r /requirements.txt
 
 USER nobody
 WORKDIR /home/nobody
-COPY src .
+COPY --chown=nobody src .
 
 EXPOSE 9999
 CMD socat TCP-LISTEN:9999,reuseaddr,fork EXEC:"python3 -u chall.py"
