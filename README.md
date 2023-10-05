@@ -5,6 +5,8 @@ Problemset for Final CompFest 2023
 ## Challenge Folder Structure
 ```
 problem-slug/
+ ├─ attachment/
+ │   └─ archived_attachment (publish to participant)
  ├─ test/
  │   ├─ (file needed for testing)
  │   └─ test.py
