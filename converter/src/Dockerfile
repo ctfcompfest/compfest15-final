@@ -13,8 +13,6 @@ USER ctf
 # copy all the files to the container
 COPY --chown=ctf:ctf . .
 
-RUN chmod -R 555 /home/app
-
 ENV PATH="/home/ctf/.local/bin:$PATH"
 
 RUN pip install --upgrade pip

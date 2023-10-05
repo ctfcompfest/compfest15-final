@@ -5,13 +5,13 @@ RUN apt update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+RUN yarn global add phantomjs-prebuilt
+
 WORKDIR /opt/app
 COPY editor/package.json .
 RUN yarn install --production=true
-RUN yarn global add phantomjs-prebuilt
 
 COPY editor .
-RUN yarn build
 
 COPY startup.sh .
 RUN chmod +x startup.sh
