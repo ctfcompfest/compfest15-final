@@ -8,7 +8,7 @@
     "start": "export OPENSSL_CONF=/dev/null && next start",
     "lint": "next lint",
     "starthot": "nodemon",
-    "buildhot": "nodemon --config compile.json --exec 'yarn build'"
+    "buildhot": "nodemon --config compile.json --exec 'yarn build --no-mangling'"
   },
   "nodemonConfig": {
     "watch": [
