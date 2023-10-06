@@ -1,6 +1,11 @@
 name: Converter
 description: |-
-  Now you can easily conver html to pdf.
+  Now you can easily convert html to pdf.
+
+  Notes:
+    - Provided attachment is not a full system
+    - Please restart the challenge after patching
+    - DO NOT restart the challenge unless you're patching
 notes: nothing
 visibility: [1]
 num_expose: 1
