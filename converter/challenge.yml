@@ -4,8 +4,12 @@ description: |-
 
   Notes:
     - Provided attachment is not a full system
-    - Please restart the challenge after patching
-    - DO NOT restart the challenge unless you're patching
+    - Please restart the challenge service after patching
+    - DO NOT restart the challenge service unless you're patching
+
+  [Attachment](https://d.rorre.me/T20PpIA8/converter.zip)
+  
+  Author: ivanox
 notes: nothing
 visibility: [1]
 num_expose: 1

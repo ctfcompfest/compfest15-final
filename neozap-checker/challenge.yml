@@ -8,6 +8,8 @@ description: |-
   - Bruteforcing the remote server is not allowed.
   - Length difference between the original binary file and your patch cannot exceed 32 bytes.
 
+  [Attachment](https://d.rorre.me/aWFfDR8Q/neozap-checker.zip)
+
   Author: NeoZap
 notes: lfi, null-byte, buffer overflow, logic error
 visibility: [1]

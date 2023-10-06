@@ -2,6 +2,8 @@ name: Writeup Editor
 description: |-
   This year, the CTF COMPFEST committee developed a write-up editor. This platform allows users to compose in a markdown format and then compile it to PDF directly. Hopefully, this platform can help a lot of beginners in CTF.
 
+  [Attachment](https://d.rorre.me/3i7HuB17/writeup-editor.zip)
+
   Author: Bonceng
 notes: lfi, xss
 visibility: [1]
