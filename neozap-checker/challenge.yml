@@ -7,7 +7,8 @@ description: |-
   Note:
   - Bruteforcing the remote server is not allowed.
   - Length difference between the original binary file and your patch cannot exceed 32 bytes.
-
+  - Restart the challenge service after patching
+  
   [Attachment](https://d.rorre.me/aWFfDR8Q/neozap-checker.zip)
 
   Author: NeoZap
