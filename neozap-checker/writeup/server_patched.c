@@ -11,8 +11,7 @@
 #define PORT 8080
 #define REQUEST_SIZE 969
 #define RESPONSE_SIZE 4096
-#define HASH_LENGTH 48 // patch #1: change HASH_LENGTH from 44 to 48
-#define FORK_N 30
+#define HASH_LENGTH 48 // patch #1: change HASH_LENGTH to 48
 #define TIMEOUT_SEC 5
 
 void init();
@@ -46,24 +45,8 @@ int main() {
             continue;
         }
 
-        if (i % FORK_N) {
-            handleRequest(client_fd);
-            close(client_fd);
-            continue;
-        }
-        
-        pid_t pid = fork();
-        if (pid < 0) {
-            perror("[!] fork()");
-            exit(1);
-        } else if (pid == 0) {
-            close(server_fd);
-            handleRequest(client_fd);
-            close(client_fd);
-            exit(0);
-        } else {
-            close(client_fd);
-        }
+        handleRequest(client_fd);
+        close(client_fd);
     }
 
     close(server_fd);
@@ -126,9 +109,6 @@ short isNeoZap(const char* password) {
 }
 
 void handleRequest(int client_fd) {
-    puts("[*] Processing request...");
-    sleep(1);
-
     char* buffer = (char*)malloc(REQUEST_SIZE);
     char* response;
     ssize_t bytes_received;
@@ -139,7 +119,7 @@ void handleRequest(int client_fd) {
         free(buffer);
         return;
     }
-    buffer[bytes_received] = '\0'; // patch #2: add null terminator (optional if we did patch #3)
+    buffer[bytes_received] = '\0'; // patch #2: null-terminate buffer (optional if we did patch #3)
 
     char request[bytes_received];
     strncpy(request, buffer, bytes_received);
@@ -153,7 +133,7 @@ void handleRequest(int client_fd) {
     }
 
     regex_t regex;
-    regcomp(&regex, "^GET\\ +\\/([^\\/\\?]*)(\\?password=(\\S+))?\\ +HTTP\\/1", REG_EXTENDED); // patch #3: disable / on route (optional if we did patch #2)
+    regcomp(&regex, "^GET\\ +\\/([^ \\/\\?]*)(\\?password=(\\S+))?\\ +HTTP\\/1", REG_EXTENDED); // patch #3: disable / on route (optional if we did patch #2)
     regmatch_t match[4];
     if (regexec(&regex, buffer, 4, match, 0) == 0) {
         int ROUTE_LEN = match[1].rm_eo - match[1].rm_so;

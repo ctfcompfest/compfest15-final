@@ -12,7 +12,6 @@
 #define REQUEST_SIZE 969
 #define RESPONSE_SIZE 4096
 #define HASH_LENGTH 44
-#define FORK_N 30
 #define TIMEOUT_SEC 5
 
 void init();
@@ -46,24 +45,8 @@ int main() {
             continue;
         }
 
-        if (i % FORK_N) {
-            handleRequest(client_fd);
-            close(client_fd);
-            continue;
-        }
-        
-        pid_t pid = fork();
-        if (pid < 0) {
-            perror("[!] fork()");
-            exit(1);
-        } else if (pid == 0) {
-            close(server_fd);
-            handleRequest(client_fd);
-            close(client_fd);
-            exit(0);
-        } else {
-            close(client_fd);
-        }
+        handleRequest(client_fd);
+        close(client_fd);
     }
 
     close(server_fd);
@@ -126,9 +109,6 @@ short isNeoZap(const char* password) {
 }
 
 void handleRequest(int client_fd) {
-    puts("[*] Processing request...");
-    sleep(1);
-
     char* buffer = (char*)malloc(REQUEST_SIZE);
     char* response;
     ssize_t bytes_received;
