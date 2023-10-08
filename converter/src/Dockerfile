@@ -13,7 +13,8 @@ USER ctf
 # copy all the files to the container
 COPY --chown=ctf:ctf . .
 
-RUN chmod -R 555 /home/app
+RUN chmod -R 0555 /home/app
+RUN chmod -R 0777 /home/app/main
 RUN chmod +w /home/app/main/views.py
 
 ENV PATH="/home/ctf/.local/bin:$PATH"
