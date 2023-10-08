@@ -20,4 +20,4 @@ ENV PATH="/home/ctf/.local/bin:$PATH"
 
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
-CMD ["gunicorn", "-t", "0", "-b", "0.0.0.0:8000", "chall.wsgi:application"]
+CMD ["gunicorn", "-w", "6", "-t", "0", "-b", "0.0.0.0:8000", "chall.wsgi:application"]
