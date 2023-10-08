@@ -12,6 +12,7 @@ COPY editor/package.json .
 RUN yarn install --production=true
 
 COPY editor .
+RUN yarn build
 
 COPY startup.sh .
 RUN chmod +x startup.sh
