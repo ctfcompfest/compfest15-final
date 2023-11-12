@@ -1,6 +1,6 @@
-# Final CTF CompFest 2023
+# Final CTF COMPFEST 2023
 
-Problemset for Final CompFest 2023
+Problemset for Final CTF COMPFEST 2023
 
 ## Challenge Folder Structure
 ```
