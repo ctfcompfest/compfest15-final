@@ -20,69 +20,8 @@ problem-slug/
  └─ patchrule.yml
 ```
 
-## Problemsetting Convention
-### challenge.yml
-This file contains information regarding the challenge, such as title and description. The file format is as follows:
-```
-name: <problem title>
-description: |-
-  <write your challenge description here in markdown format, include the attachment link>
-notes: <some notes regarding the challenge, hidden from participant>
-visibility: [1]
-num_expose: 1
-server_id: null
-```
-
-### patchrule.yml
-This file contains information regarding allowed and disallowed path to patch on each challenge's container. The file format is as follows:
-```
-whitelist:
-  <container-name-1>:
-  - <allowed-path-1>
-  - <allowed-path-2>
-  - ...
-  <container-name-2>:
-  ...
-blacklist:
-  <container-name1>:
-  - <blacklist-path-1>
-  - ...
-  ...
-```
-
-### docker-compose.yml
-Regular compose file to run challenge's service. For now, one problem is limited to expose only 1 (one) port.
-
-Please add the following to your `docker-compose.yml`:
-- `__TEAM_SECRET__`: will be automatically replaced with team secret (optional).
-- `__FLAG_DIR__`: will be automatically replaced with container flag directory on host.
-- `__PORT__`: will be automatically replaced with the allocated port for the problem service.
-
-Platform will add new volume for transferring patch file and metadata to the container.
-
-For development, use `docker-compose.dev.yml` instead.
-
-Please refer to sample problem for the example.
-
-## Creating Test Case
-1. Test case is used to check that all participants services are running properly.
-1. Test case must be written on a single python file (`test/test.py`) and must implement `do_check(helper: fulgens.ChallengeHelper)` function. The function must return the `fulgens.Verdict` object.
-1. If you are using custom module, please add it to the `test/requirements.txt` file.
-
-### Notes About Fulgens
-1. Some functionality has been added to interact with the participant's service.
-    - Use `helper.run(container_name, shell_command)` if you want to run a shell command inside participant's container.
-    - Use `helper.fetch(container_name, source, dest)` if you want to fetch file/folder from the participant's container to the checker filesystem. Make sure your `dest` value is unique because all test case will be running in a multiprocessing mode.
-1. Do note that `helper.addresses` is a list of service addresses that exposed to the public. Each element are in format `<ip>:<port>` without protocol. 
-1. If you need to access to the participant's service secret (i.e. for validating encryption), use `helper.secret`.
-1. Do note that `helper.local_challenge_dir` is inside the platform server filesystem. On the other hand, `remote_challenge_dir` is inside the participant's service server.
-1. Read about [fulgens here](https://github.com/CTF-Compfest-15/fulgens).
-
-## Notes
-- All problem must be delivered in the form of a docker image.
-- Problem will be served by using command: `docker-compose up -d`.
-- You do not need to set flag value. Flag will be set by system automatically. Flag filename is `flag.txt`, so if you have volume `__FLAG_DIR__:/myflag` on your compose file, please refer your flag to `/myflag/flag.txt` in your docker container.
-- You do not need to provide hint. Hints usually provided on demand during contest, by considering the contest situation.
-
-## Sample Problem
-Sample problem can be accessed [here](https://github.com/CTF-Compfest-15/internal-and-fasilkom-23).
+## License
+All the problems are licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/) to the respective author.
+<p align="center">
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a>
+</p>
